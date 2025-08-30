@@ -1,0 +1,16 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend server for SafeBharat",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "geolib": "^3.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
