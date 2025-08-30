@@ -2,26 +2,23 @@ import React, { useState, useEffect } from 'react';
 import PanicButton from '../components/PanicButton';
 import * as api from '../api/touristApi';
 
-const TOURIST_ID = 'tourist_1701'; // Hardcoded for demo
+const TOURIST_ID = 'tourist_1701';
 
 function TouristAppPage() {
   const [location, setLocation] = useState({ lat: null, lon: null });
   const [status, setStatus] = useState('Initializing...');
 
   useEffect(() => {
-    // 1. Register the tourist on app start
     api.registerTourist({ id: TOURIST_ID, name: 'Ravi Kumar', emergency_contact: '9876543210' })
       .then(() => setStatus('Registered. Tracking location...'))
       .catch(() => setStatus('Error: Registration failed'));
 
-    // 2. Start watching GPS location
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           setLocation({ lat: latitude, lon: longitude });
           
-          // 3. Send location update to backend
           api.updateLocation({ tourist_id: TOURIST_ID, latitude, longitude })
             .then(() => setStatus('Protected'))
             .catch(() => setStatus('Error: Failed to update location'));

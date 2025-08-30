@@ -6,7 +6,6 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// In-memory database for hackathon simplicity
 const db = {
     tourists: {},
     location_history: {},
@@ -68,21 +67,9 @@ app.post('/api/panic', (req, res) => {
     res.status(200).json({ message: 'Panic signal received. Help is on the way.' });
 });
 
-// --- Dashboard Endpoints ---
-
 app.get('/api/alerts', (req, res) => {
     const sortedAlerts = [...db.alerts].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     res.json({ alerts: sortedAlerts });
-});
-
-app.get('/api/tourist/:tourist_id', (req, res) => {
-    const { tourist_id } = req.params;
-    if (!db.tourists[tourist_id]) return res.status(404).json({ error: 'Tourist not found.' });
-    
-    res.json({
-        profile: db.tourists[tourist_id],
-        location_history: db.location_history[tourist_id]
-    });
 });
 
 app.listen(PORT, () => {

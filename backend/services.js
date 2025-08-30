@@ -6,10 +6,6 @@ const RESTRICTED_ZONES = [
     { name: "Golkonda Fort Protected Area", latitude: 17.3833, longitude: 78.4011, radius_m: 500 },
 ];
 
-/**
- * Checks if a location is inside any restricted zone.
- * @returns {object|null} An alert object if inside a zone, otherwise null.
- */
 function checkGeofence(lat, lon) {
     const touristLocation = { latitude: lat, longitude: lon };
     for (const zone of RESTRICTED_ZONES) {
@@ -25,10 +21,6 @@ function checkGeofence(lat, lon) {
     return null;
 }
 
-/**
- * Detects anomalies based on location history.
- * @returns {object|null} An alert object if an anomaly is found, otherwise null.
- */
 function detectAnomalies(touristId, history) {
     if (history.length < 2) return null;
 
@@ -36,8 +28,7 @@ function detectAnomalies(touristId, history) {
     const prevUpdate = history[history.length - 2];
     const timeDiffSeconds = lastUpdate.timestamp - prevUpdate.timestamp;
 
-    // Anomaly 1: Prolonged Inactivity (e.g., > 1 hour)
-    if (timeDiffSeconds > 3600) {
+    if (timeDiffSeconds > 3600) { // 1 hour
         return {
             type: 'INACTIVITY_ALERT',
             message: `Alert: Prolonged inactivity detected for tourist ${touristId}.`,
@@ -45,7 +36,6 @@ function detectAnomalies(touristId, history) {
             location: { lat: lastUpdate.latitude, lon: lastUpdate.longitude }
         };
     }
-
     return null;
 }
 

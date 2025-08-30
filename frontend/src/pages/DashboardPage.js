@@ -8,12 +8,10 @@ function DashboardPage() {
   const [lastLocation, setLastLocation] = useState(null);
 
   useEffect(() => {
-    // Fetch alerts immediately and then every 5 seconds
     const fetchAlerts = () => {
       api.getAlerts()
         .then(data => {
           setAlerts(data.alerts);
-          // For the map, track the location from the latest alert
           if (data.alerts.length > 0 && data.alerts[0].location) {
             setLastLocation(data.alerts[0].location);
           }
@@ -22,9 +20,9 @@ function DashboardPage() {
     };
 
     fetchAlerts();
-    const intervalId = setInterval(fetchAlerts, 5000); // Poll every 5 seconds
+    const intervalId = setInterval(fetchAlerts, 5000);
 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

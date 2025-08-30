@@ -12,7 +12,6 @@ contract TouristIDRegistry {
         bool isActive;
     }
 
-    // Mapping from a unique tourist ID (e.g., passport hash) to their data
     mapping(bytes32 => Tourist) public tourists;
     address public owner;
 
@@ -29,7 +28,6 @@ contract TouristIDRegistry {
         string memory _emergencyContact,
         uint256 _durationInDays
     ) public {
-        // In a real app, add an onlyOwner modifier or similar access control
         require(!tourists[touristId].isActive, "Tourist already registered and active.");
         
         tourists[touristId] = Tourist({
@@ -42,9 +40,5 @@ contract TouristIDRegistry {
         });
 
         emit TouristRegistered(touristId, _name);
-    }
-
-    function getTouristInfo(bytes32 touristId) public view returns (Tourist memory) {
-        return tourists[touristId];
     }
 }
